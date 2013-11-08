@@ -1,18 +1,27 @@
 /* app css stylesheet */
 
-.overflowable {
-  height: 240px;
-  overflow-y: auto;
-  border: 1px solid #000;
+.wincard {
+    font-size: 50px;
+    margin-top: 80px;
+    text-align: center;
 }
 
-.overflowable p {
-  margin: 0;
+.servercardtable {
+    position: fixed;
+    bottom: 10px;
 }
 
-.col {
-  float: left;
-  width: 350px;
+table.score td {
+    width: 100px;
+    border: 1px solid green;
+}
+
+.server.playingCards td {
+    padding-top: 1em;
+}
+
+.playingCards .active .card {
+    bottom: 1em;
 }
 
 .clr {

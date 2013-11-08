@@ -1,15 +1,15 @@
-# Angular Socket.IO IM Demo
+# Scrum Poker RT
 
-A simple instant messaging app to demo the [AngularJS Socket.IO Seed](https://github.com/btford/angular-socket-io-seed). [A walkthrough of writing the application is available on my blog](http://briantford.com/blog/angular-socket-io.html).
+An realtime webapp to play scrum poker virtually.
 
 ## Running it
 
-First, grab the dependencies with npm:
+Install the dependencies with npm:
 
     npm install
 
-Then run the app like so:
+Run the app:
 
     node app.js
 
-And navigate to `localhost:3000`
+And open it `localhost:3000`

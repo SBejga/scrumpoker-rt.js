@@ -37,6 +37,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.get('/server/', routes.server);
 app.get('/partials/:name', routes.partials);
 
 // redirect all others to the index (HTML5 history)

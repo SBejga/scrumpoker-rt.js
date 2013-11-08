@@ -28,7 +28,7 @@ var userNames = (function () {
   var get = function () {
     var res = [];
     for (user in names) {
-      res.push(user);
+      res.push({name: user, score: "-2"});
     }
 
     return res;
@@ -55,7 +55,7 @@ module.exports = function (socket) {
   // send the new user their name and a list of users
   socket.emit('init', {
     name: name,
-    users: userNames.get()
+    users: []
   });
 
   // notify other clients that a new user has joined
@@ -63,12 +63,20 @@ module.exports = function (socket) {
     name: name
   });
 
-  // broadcast a user's message to other users
-  socket.on('send:message', function (data) {
-    socket.broadcast.emit('send:message', {
-      user: name,
-      text: data.message
-    });
+
+  // notify other clients score changed
+  socket.on('score:change', function (data) {
+      socket.broadcast.emit('score:change', data);
+  });
+
+  // notify other clients score changed
+  socket.on('score:lock', function (data) {
+    socket.broadcast.emit('score:lock');
+
+    setTimeout(function() {
+      socket.emit('score:unlock');
+      socket.broadcast.emit('score:unlock');
+    }, 5*1000);
   });
 
   // validate a user's name change, and broadcast it on success
