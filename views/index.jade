@@ -1,7 +1,7 @@
 extends layout
 
 block body
-  h1 Scrum Poker RT Client
+  h1 Scrum Poker RT client
   div(ng-controller='AppCtrl')
     div {{state}}
     div(ng-switch="state")
@@ -26,3 +26,5 @@ block body
   script(src='js/controllers.js')
   script(src='js/filters.js')
   script(src='js/directives.js')
+
+  div(class="footernote") © 2015 Sebastian Bejga

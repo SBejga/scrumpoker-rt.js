@@ -1,14 +1,21 @@
 'use strict';
 
-
-// Private helpers
-// ===============
-
 /* Controllers */
 
 function ServerCtrl($scope, socket) {
 
     $scope.state = "picking";
+    $scope.sidebar = false; //show initial sidebar?
+    $scope.scoreHistory = [];
+
+    //debug purpose, create large scoreHistory:
+    //for (var x=0; x<12; x++) {
+    //    var users = [];
+    //    for (var u=1; u<7; u++) {
+    //        users.push({name: "Guest_"+u, score: ((u*3+1)/2)});
+    //    }
+    //    $scope.scoreHistory.unshift({round: x+1, users: users});
+    //}
 
     $scope.log = function() {
         console.log($scope.users);
@@ -31,15 +38,20 @@ function ServerCtrl($scope, socket) {
         var diffs = [];
         var counts = [];
         var i, j, score, count, diff;
+
+        //go through users votes
         for (i = 0; i < $scope.users.length; i++) {
             score = $scope.users[i].score+"";
-            //already found, increase in other array at this position
+
+            //if not contained, push into diffs_array
             if (diffs.indexOf(score) < 0) {
                 diffs.push(score);
             }
         }
 
-        //count each different
+        //diffs contains unique score values
+
+        //go through diffs and count how many users voted this.
         for (i = 0; i < diffs.length; i++) {
             diff = diffs[i];
             count = 0;
@@ -51,6 +63,10 @@ function ServerCtrl($scope, socket) {
             }
             counts[i] = count;
         }
+
+        //diffs contains unique score values
+        //counts contains amount of score value
+        //diffs[x] = value, counts[x] = amount
 
         console.log(diffs);
         console.log(counts);
@@ -75,6 +91,10 @@ function ServerCtrl($scope, socket) {
         }
 
         console.log('highest: '+highest);
+
+        var winscore = {
+            "highest": highest
+        };
 
         return highest;
     }
@@ -137,6 +157,13 @@ function ServerCtrl($scope, socket) {
                 $scope.winScore = win;
             }
 
+            var copyUsers = angular.copy($scope.users);
+            for (var u=0; u<copyUsers.length; u++) {
+                copyUsers[u].name = copyUsers[u].name.replace(" ", "_");
+            }
+            var scoreCopy = {round: $scope.scoreHistory.length+1, users: copyUsers};
+            $scope.scoreHistory.unshift(scoreCopy);
+
             //lock clients
             socket.emit('score:lock');
         }
@@ -165,7 +192,9 @@ function ServerCtrl($scope, socket) {
 function AppCtrl($scope, socket) {
 
     $scope.cardvalues = [
-        0, 0.5, 1, 2, 3, 5, 10, 20, 99
+        //0, 0.5, 1, 2, 3, 5, 10, 20, 99
+		//0, 1, 2, 3, 4, 6, 8, 12, 16, 20, 24, 32, 40, 60
+        0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99
     ];
 
     $scope.selectedCard = -1;

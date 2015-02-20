@@ -2,10 +2,24 @@ extends layout
 
 block body
   h1 Scrum Poker RT
+  p Important: first load server view, than open your clients!
   div(ng-controller='ServerCtrl', class="server playingCards")
 
-    div(ng-show="state == 'finished'", class="active wincard")
-        div(class="card") {{winScore}}
+    button(ng-click='sidebar = !sidebar', style="float: right") History
+    div.clr
+
+    div(class="wrapper")
+      div(class="main")
+        div(ng-show="state == 'finished'", class="active wincard")
+          div(class="card") {{winScore}}
+      div(ng-show="sidebar == true", class="sidebarRight")
+          table(class="sidebar")
+            tr(ng-repeat="scores in scoreHistory")
+              td
+                div [Round {{scores.round}}]
+                span(ng-repeat='user in scores.users')
+                  span {{user.name}}:&nbsp;{{user.score}} &nbsp;
+                hr
 
     table(class="servercardtable")
       tr
@@ -29,3 +43,5 @@ block body
   script(src='js/controllers.js')
   script(src='js/filters.js')
   script(src='js/directives.js')
+
+  div(class="footernote") © 2015 Sebastian Bejga
