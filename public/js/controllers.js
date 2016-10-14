@@ -192,9 +192,9 @@ function ServerCtrl($scope, socket) {
 function AppCtrl($scope, socket) {
 
     $scope.cardvalues = [
-        //0, 0.5, 1, 2, 3, 5, 10, 20, 99
+        0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 99
 		//0, 1, 2, 3, 4, 6, 8, 12, 16, 20, 24, 32, 40, 60
-        0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99
+        //0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99
     ];
 
     $scope.selectedCard = -1;
