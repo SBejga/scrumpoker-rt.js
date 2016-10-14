@@ -39,7 +39,7 @@
     "main": "nw.html", 
     "chromium-args": "",
     "scripts": {
-        "start": "npm install && node app.js"
+        "start": "node app.js"
     },
     "dependencies": {
       "express": "2.5.10",
