@@ -1,10 +1,6 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express'),
   routes = require('./routes'),
+  basicauth = require('./routes/basicauth.js'),
   socket = require('./routes/socket.js');
 
 var app = module.exports = express.createServer();
@@ -13,6 +9,7 @@ var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
 
 // Configuration
+var authConfig = require('./basicauth.json');
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -20,6 +17,14 @@ app.configure(function(){
   app.set('view options', {
     layout: false
   });
+
+  //Basic Auth
+  if (authConfig.enabled) {
+    app.use(express.basicAuth(function(user, pass) {
+      return pass === authConfig.credentials[user];
+    }));
+  }
+
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
@@ -35,7 +40,6 @@ app.configure('production', function(){
 });
 
 // Routes
-
 app.get('/', routes.index);
 app.get('/server/', routes.server);
 app.get('/partials/:name', routes.partials);
