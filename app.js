@@ -1,6 +1,5 @@
 var express = require('express'),
   routes = require('./routes'),
-  basicauth = require('./routes/basicauth.js'),
   socket = require('./routes/socket.js');
 
 var app = module.exports = express.createServer();
