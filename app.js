@@ -51,6 +51,6 @@ io.sockets.on('connection', socket);
 
 //TODO: in production: NODE_ENV=production
 
-app.listen(3000, function(){
+app.listen(8000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
