@@ -2,17 +2,24 @@
 
 An realtime webapp to play scrum poker virtually.
 
+## Screenshots
+
+![Screenshot Client View](/screenshots/screenshot-client.png?raw=true "Screenshot Client View")
+![Screenshot Server View Picking](/screenshots/screenshot-server-picking.png?raw=true "Screenshot Server View Picking")
+![Screenshot Server View Result](/screenshots/screenshot-server-result.png?raw=true "Screenshot Server View Result")
+
 ## Running it
 
 Install the dependencies with npm:
 
     npm install
+    bower install
 
 Run the app:
 
     node app.js
 
-And open it `localhost:8000`
+Open Server View at http://localhost:8000/server/ and Clients at local http://localhost:8000/
 
 ## Improvements / Todos
 
