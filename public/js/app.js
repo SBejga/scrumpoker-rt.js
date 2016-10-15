@@ -6,4 +6,4 @@ $(function () {
 })
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'ngCookies']);
+var app = angular.module('myApp', ['myApp.services', 'myApp.controllers', 'ngCookies']);

@@ -1,13 +1,13 @@
 'use strict';
 
-/* Services */
-app.factory('remember', ['$cookieStore', function($cookies) {
+var myApp = angular.module('myApp.services',[]);
+myApp.factory('remember', ['$cookies', function($cookies) {
   
   /**
    * Get Saved Name in Cookie
    */
   var getRememberName = function() {
-    var remember = $cookies.get('remember');
+    var remember = $cookies.getObject('remember');
     console.log("remember cookie content: ", remember);
 
     if (remember && remember.name) {
@@ -21,13 +21,25 @@ app.factory('remember', ['$cookieStore', function($cookies) {
    * Save new name into cookie to remember
    */
   var setRememberName = function(name) {
-    var remember = $cookies.get('remember');
+    var remember;
+    
+    try {
+      remember = $cookies.getObject('remember');
+    } catch (e) {
+      $cookies.setObject('remember', {});
+      remember = $cookies.getObject('remember');
+    }
     if (!remember) {
       remember = {name: name}
     } else {
       remember.name = name;
     }
-    $cookies.put('remember', remember);
+
+    //set exipiration
+    var now = new Date(),
+        expireInYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
+
+    $cookies.putObject('remember', remember, {expires: expireInYear});
   }
 
   return {
@@ -36,9 +48,7 @@ app.factory('remember', ['$cookieStore', function($cookies) {
   }
 }]);
 
-// Demonstrate how to register services
-// In this case it is a simple value service.
-app.factory('socket', function ($rootScope) {
+myApp.factory('socket', ['$rootScope', function ($rootScope) {
   var socket = io.connect();
   return {
     on: function (eventName, callback) {
@@ -63,4 +73,4 @@ app.factory('socket', function ($rootScope) {
       return socket.disconnect();
     }
   };
-});
+}]);

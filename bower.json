@@ -17,6 +17,8 @@
   ],
   "directory": "public/",
   "dependencies": {
-    "bootstrap": "v4.0.0-alpha.4"
+    "bootstrap": "v4.0.0-alpha.4",
+    "angular": "^1.5.8",
+    "angular-cookies": "^1.5.8"
   }
 }

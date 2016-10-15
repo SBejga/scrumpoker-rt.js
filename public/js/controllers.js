@@ -1,8 +1,7 @@
 'use strict';
+var myApp = angular.module('myApp.controllers',[]);
 
-/* Controllers */
-
-function ServerCtrl($scope, socket) {
+myApp.controller('ServerCtrl', ['$scope', 'socket', function($scope, socket) {
 
     $scope.state = "picking";
     $scope.locked = false;
@@ -235,9 +234,9 @@ function ServerCtrl($scope, socket) {
             socket.emit('score:unlock');
         }
     };
-}
+}]);
 
-function AppCtrl($scope, socket, remember) {
+myApp.controller('AppCtrl', ['$scope', 'socket', 'remember', function($scope, socket, remember) {
 
     $scope.cardvalues = [
         0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 99, "Pause"
@@ -353,4 +352,4 @@ function AppCtrl($scope, socket, remember) {
     $scope.connect = function() {
         location.reload();
     }
-}
+}]);

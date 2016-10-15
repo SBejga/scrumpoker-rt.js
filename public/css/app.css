@@ -2,6 +2,10 @@ body {
     background: url(backgrounds/OCCN630_lighter2.jpg);
 }
 
+a[ng-click] {
+    color: #0275d8 !important;
+}
+
 nav.navbar {
     background-color: #d3d3d3;
 }
