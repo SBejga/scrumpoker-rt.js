@@ -100,6 +100,7 @@ module.exports = function (socket) {
 
   // notify other clients for locks
   socket.on('score:lock', function () {
+    socket.emit('score:lock');
     socket.broadcast.emit('score:lock');
   });
   socket.on('score:unlock', function () {

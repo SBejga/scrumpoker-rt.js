@@ -5,10 +5,12 @@
 function ServerCtrl($scope, socket) {
 
     $scope.state = "picking";
+    $scope.locked = false;
     $scope.sidebar = false; //show initial sidebar?
     $scope.scoreHistory = [];
     $scope.users = [];
     $scope.connection = false;
+    $scope.autoUnlock = false;
 
     //debug purpose, create large scoreHistory:
     //for (var x=0; x<12; x++) {
@@ -188,15 +190,22 @@ function ServerCtrl($scope, socket) {
             console.log('Locking Clients for 5sec');
             socket.emit('score:lock');
 
-            setTimeout(function() {
-                socket.emit('score:unlock');
-            }, 5*1000);
+            if ($scope.autoUnlock) {
+                setTimeout(function() {
+                    socket.emit('score:unlock');
+                }, 5*1000);
+            };
         }
     };
+
+    socket.on('score:lock', function() {
+        $scope.locked = true;
+    })
 
     socket.on('score:unlock', function () {
 
         console.log('Unlock. Reset last scores.');
+        $scope.locked = false;
 
         var i, user;
         for (i = 0; i < $scope.users.length; i++) {
@@ -228,7 +237,8 @@ function ServerCtrl($scope, socket) {
 function AppCtrl($scope, socket, remember) {
 
     $scope.cardvalues = [
-        0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 99
+        0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 99, "PAUSE"
+        //0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 99
 		//0, 1, 2, 3, 4, 6, 8, 12, 16, 20, 24, 32, 40, 60
         //0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99
     ];

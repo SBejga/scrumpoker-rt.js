@@ -10,10 +10,10 @@ block body
       div(ng-switch="state")
         div(ng-switch-when="lock") Locked
         div(ng-switch-default)
-          table(class='playingCards')
+          table(class='playingCards faceImages')
             tr
               td(ng-repeat="cardval in cardvalues", ng-class="{'active': $index == selectedCard }", ng-click='sendScore(cardval, $index)')
-                div(class="card rank-2 hearts") {{cardval}}
+                div(class="card hearts", ng-class="{'joker': cardval == 'PAUSE'}") {{cardval}}
 
     .clr
       h3 Change your name
