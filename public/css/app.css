@@ -1,5 +1,9 @@
-body {
-    background: url(backgrounds/wooden_lighter.jpg);
+body.server {
+    background: url(backgrounds/OCCN630_lighter2.jpg);
+}
+
+.controlbuttons button{
+min-width: 160px;
 }
 
 .wincard {
@@ -33,27 +37,32 @@ table.score td {
 }
 
 .server.playingCards td {
-    padding-top: 1em;
+    text-align: center;
 }
 
 .playingCards .active .card {
     bottom: 1em;
 }
 
+.playingCards .card.back {
+    background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#82b1ff), color-stop(0.8, #2962ff), to(#030));
+}
+
 table.sidebar {
     width: 300px;
 }
-table.sidebar tr td span span {
-}
-
 
 .clr {
   clear: both;
 }
 
 .footernote {
+    color: darkgrey;
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 10px;
     text-align: right;
+}
+.footernote a {
+    color: darkslategray;
 }

@@ -1,0 +1,22 @@
+{
+  "name": "scrumpoker",
+  "description": "scrumpoker RT",
+  "main": "index.html",
+  "authors": [
+    "Sebastian Bejga <sebastian@bejga.de>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/SBejga/scrumpoker-rt.js",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "directory": "public/",
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.4"
+  }
+}

@@ -1,36 +1,30 @@
 extends layout
 
 block body
-  h1 Scrum Poker RT client
-  div(ng-controller='AppCtrl')
-    div(ng-show="!connection")
-      a(ng-click="connect()") Connect
-    div(ng-show="connection")
-      div {{state}}
-      div(ng-switch="state")
-        div(ng-switch-when="lock") Locked
-        div(ng-switch-default)
-          table(class='playingCards faceImages')
-            tr
-              td(ng-repeat="cardval in cardvalues", ng-class="{'active': $index == selectedCard }", ng-click='sendScore(cardval, $index)')
-                div(class="card hearts", ng-class="{'joker': cardval == 'PAUSE'}") {{cardval}}
+  body
+    div.container-fluid
+      h1 Scrum Poker RT client
+      div(ng-controller='AppCtrl')
+        div(ng-show="!connection")
+          a(ng-click="connect()") Connect
+        div(ng-show="connection")
+          div {{state}}
+          div(ng-switch="state")
+            div(ng-switch-when="lock") Locked
+            div(ng-switch-default)
+              table(class='playingCards faceImages')
+                tr
+                  td(ng-repeat="cardval in cardvalues", ng-class="{'active': $index == selectedCard }", ng-click='sendScore(cardval, $index)')
+                    div(class="card hearts", ng-class="{'joker': cardval == 'PAUSE'}") {{cardval}}
 
-    .clr
-      h3 Change your name
-      p Your current user name is {{name}}
-      form(ng-submit='changeName()')
-        input(ng-model='newName')
-        input(type='submit', value='Change Name')
-      p(ng-show="connection")
-        a(ng-click="disconnect()") Disconnect
+        .clr
+          h3 Change your name
+          p Your current user name is {{name}}
+          form(ng-submit='changeName()')
+            input(ng-model='newName')
+            input(type='submit', value='Change Name')
+          p(ng-show="connection")
+            a(ng-click="disconnect()") Disconnect
 
-  script(src='/js/lib/angular/angular.js')
-  script(src='/js/lib/angular/angular-cookies.js')
-  script(src='/socket.io/socket.io.js')
-  script(src='/js/app.js')
-  script(src='/js/services.js')
-  script(src='/js/controllers.js')
-  script(src='/js/filters.js')
-  script(src='/js/directives.js')
-
-  div(class="footernote") © 2016 Sebastian Bejga
+    include footer.jade
+    include scripts.jade

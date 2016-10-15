@@ -1,55 +1,57 @@
 extends layout
 
 block body
-  h1 Scrum Poker RT
-  div(ng-controller='ServerCtrl', class="server playingCards")
+  body.server(ng-controller='ServerCtrl')
+    div.container-fluid
+      nav.navbar.navbar-fixed-top.navbar-light.bg-faded
+        a.navbar-brand Scrumpoker RT
+        form.form-inline.pull-xs-right.controlbuttons
+          span(ng-show="locked")
+            button.btn.btn-success(ng-click='setLock(false)') Unlock
+          span(ng-hide="locked")
+            button.btn.btn-danger(ng-click='setLock(true)') Lock
+          span &nbsp;
+          button.btn(ng-class="{'btn-outline-success': sidebar, 'btn-outline-danger': !sidebar}", ng-click='sidebar = !sidebar') 
+            | History
+          span &nbsp;
+          span(ng-show="autoUnlock")
+            button.btn.btn-outline-success(ng-click='autoUnlock = false', data-toggle="tooltip", data-placement="bottom", title="Click to disable Auto Unlock")
+              | Auto Unlock On
+          span(ng-hide="autoUnlock")
+            button.btn.btn-outline-danger(ng-click='autoUnlock = true', data-toggle="tooltip", data-placement="bottom", title="Click to enable Auto Unlock")
+              | Auto Unlock Off
 
-    div.buttons(style="float: right")
-      button(ng-click='setLock(true)') Lock
-      button(ng-click='setLock(false)') Unlock
-      button(ng-click='sidebar = !sidebar') History
+      h1 Scrum Poker RT
+      div(class="server playingCards")
+        div(class="wrapper")
+          div(class="main")
+            div(ng-show="state == 'finished'", class="active wincard")
+              div(class="card") {{winScore}}
+          div(ng-show="sidebar == true", class="sidebarRight")
+              table(class="sidebar")
+                tr(ng-repeat="scores in scoreHistory")
+                  td
+                    div [Round {{scores.round}}]
+                    span(ng-repeat='user in scores.users')
+                      span {{user.name}}:&nbsp;{{user.score}} &nbsp;
+                    hr
 
-    
-    div.clr
+        table(class="servercardtable")
+          tr
+            td(ng-repeat='user in users')
+              div(ng-switch="state")
+                div(ng-switch-when='finished', class="active")
+                  div(class="card") {{user.score}}
+                div(ng-switch-when='picking')
+                  div(ng-switch="user.scored")
+                    div(ng-switch-when="true", class="active")
+                      div(class="card back")
+                    div(ng-switch-default)
+                      div(class="card back")
+          tr
+            td(ng-repeat='user in users') 
+              |{{user.name}} <br />
+              a(ng-click="kickUser(user.name)") (kick)
 
-    div(class="wrapper")
-      div(class="main")
-        div(ng-show="state == 'finished'", class="active wincard")
-          div(class="card") {{winScore}}
-      div(ng-show="sidebar == true", class="sidebarRight")
-          table(class="sidebar")
-            tr(ng-repeat="scores in scoreHistory")
-              td
-                div [Round {{scores.round}}]
-                span(ng-repeat='user in scores.users')
-                  span {{user.name}}:&nbsp;{{user.score}} &nbsp;
-                hr
-
-    table(class="servercardtable")
-      tr
-        td(ng-repeat='user in users')
-          div(ng-switch="state")
-            div(ng-switch-when='finished', class="active")
-              div(class="card") {{user.score}}
-            div(ng-switch-when='picking')
-              div(ng-switch="user.scored")
-                div(ng-switch-when="true", class="active")
-                  div(class="card back")
-                div(ng-switch-default)
-                  div(class="card back")
-      tr
-        td(ng-repeat='user in users') 
-          {{user.name}} <br />
-          a(ng-click="kickUser(user.name)") (kick)
-    
-    div(class="footernote", ng-click='log()') © 2016 Sebastian Bejga
-
-  script(src='/js/lib/angular/angular.js')
-  script(src='/js/lib/angular/angular-cookies.js')
-  script(src='/socket.io/socket.io.js')
-  script(src='/js/app.js')
-  script(src='/js/services.js')
-  script(src='/js/controllers.js')
-  script(src='/js/filters.js')
-  script(src='/js/directives.js')
-
+    include footer.jade
+    include scripts.jade
