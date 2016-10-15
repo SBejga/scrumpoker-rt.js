@@ -1,11 +1,15 @@
 extends layout
 
 block body
-  body(ng-controller='AppCtrl')
+  body.client(ng-controller='AppCtrl')
+    nav.navbar.navbar-light.bg-faded
+      .navbar-brand Scrumpoker RT
+      form.form-inline.pull-xs-right.controlbuttons(ng-cloak="")
+        div(ng-show="!connection")
+          button.btn.btn-outline-success.eqWidth(ng-click="connect()") Connect
+        div(ng-hide="!connection")
+          button.btn.btn-outline-danger.eqWidth(ng-click='disconnect()') Disconnect
     div.container-fluid
-      h1 Scrum Poker RT client
-      div(ng-show="!connection")
-        a(ng-click="connect()") Connect
       div(ng-show="connection", ng-class="{'cardsLocked': cardsLocked}")
         p(ng-show="cardsLocked") Status: 
           span.round-status Gesperrt
@@ -22,7 +26,6 @@ block body
           | (
           a(data-toggle="modal", data-target="#renameModal", ng-click="newName = name") Umbenennen?
           | )
-        a(ng-click="disconnect()") Disconnect
 
     div.modal.fade#renameModal(role="dialog")
       div.modal-dialog(role="document")
