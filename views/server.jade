@@ -7,19 +7,19 @@ block body
         .navbar-brand Scrumpoker RT
         form.form-inline.pull-xs-right.controlbuttons
           span(ng-show="locked")
-            button.btn.btn-success(ng-click='setLock(false)') Unlock
+            button.btn.btn-sm.btn-success.eqWidth(ng-click='setLock(false)') Unlock
           span(ng-hide="locked")
-            button.btn.btn-danger(ng-click='setLock(true)') Lock
+            button.btn.btn-sm.btn-danger.eqWidth(ng-click='setLock(true)') Lock
           span &nbsp;
-          button.btn(ng-class="{'btn-outline-success': sidebar, 'btn-outline-danger': !sidebar}", ng-click='sidebar = !sidebar') 
+          button.btn.btn-sm(ng-class="{'btn-outline-success': sidebar, 'btn-outline-danger': !sidebar}", ng-click='sidebar = !sidebar') 
             | History
           span &nbsp;
           span(ng-show="autoUnlock")
-            button.btn.btn-outline-success(ng-click='autoUnlock = false', data-toggle="tooltip", data-placement="bottom", title="Click to disable Auto Unlock")
-              | Auto Unlock On
+            button.btn.btn-sm.btn-outline-success(ng-click='autoUnlock = false', data-toggle="tooltip", data-placement="bottom", title="Click to disable Auto Unlock")
+              | Auto Unlock
           span(ng-hide="autoUnlock")
-            button.btn.btn-outline-danger(ng-click='autoUnlock = true', data-toggle="tooltip", data-placement="bottom", title="Click to enable Auto Unlock")
-              | Auto Unlock Off
+            button.btn.btn-sm.btn-outline-danger(ng-click='autoUnlock = true', data-toggle="tooltip", data-placement="bottom", title="Click to enable Auto Unlock")
+              | Auto Unlock
 
       h1 Scrum Poker RT
       div(class="server playingCards faceImages")

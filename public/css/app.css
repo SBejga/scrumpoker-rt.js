@@ -2,8 +2,17 @@ body.server {
     background: url(backgrounds/OCCN630_lighter2.jpg);
 }
 
-.controlbuttons button{
-min-width: 160px;
+/* to align sm buttons in middle of navbar */
+.server .controlbuttons {
+    line-height: 35px;
+}
+
+.client .controlbuttons button.eqWidth {
+    min-width: 120px;
+}
+
+.server .controlbuttons button.eqWidth {
+    min-width: 75px;
 }
 
 .navbar-brand {
