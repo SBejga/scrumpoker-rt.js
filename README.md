@@ -12,7 +12,9 @@ Run the app:
 
     node app.js
 
-And open it `localhost:3000`
+And open it `localhost:8000`
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/SBejga/scrumpoker-rt.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+## Thanks
+
+- [Anika Henke](http://selfthinker.github.com/CSS-Playing-Cards/) for Playing Cards CSS
 
