@@ -1,0 +1,6 @@
+# helper bash script to open multiple chrome windows at given position and size
+# works at mac os x sierra 
+open -n -g -a /Applications/Google\ Chrome\ Canary.app --args --new-window --app="data:text/html,<html><body><script>window.resizeTo(500,1000);window.moveTo(1200,50);window.location='http://localhost:8000/server/';</script></body></html>"
+open -n -g -a /Applications/Google\ Chrome\ Canary.app --args --new-window --app="data:text/html,<html><body><script>window.resizeTo(1100,300);window.moveTo(70,50);window.location='http://localhost:8000/';</script></body></html>"
+open -n -g -a /Applications/Google\ Chrome\ Canary.app --args --new-window --app="data:text/html,<html><body><script>window.resizeTo(1100,300);window.moveTo(70,350);window.location='http://localhost:8000/';</script></body></html>"
+open -n -g -a /Applications/Google\ Chrome\ Canary.app --args --new-window --app="data:text/html,<html><body><script>window.resizeTo(1100,300);window.moveTo(70,650);window.location='http://localhost:8000/';</script></body></html>"
