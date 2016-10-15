@@ -55,6 +55,14 @@ table.score td {
     text-align: center;
 }
 
+/* draw cards a little smaller than at server */
+.client .playingCards .card {
+    font-size: 1.1em;
+}
+.server .playingCards .card {
+    font-size: 1.2em; /*default */
+}
+
 .playingCards .active .card {
     bottom: 1em;
 }
