@@ -56,9 +56,22 @@ table.score td {
 }
 
 /* draw cards a little smaller than at server */
-.client .playingCards .card {
-    font-size: 1.1em;
+@media (min-width: 992px) {
+    .client .playingCards .card {
+        font-size: 1.2em;
+    }
 }
+@media (min-width: 768px) {
+    .client .playingCards .card {
+        font-size: 1.1em;
+    }
+}
+@media (min-width: 544px) {
+    .client .playingCards .card {
+        font-size: 0.9em;
+    }
+}
+
 .server .playingCards .card {
     font-size: 1.2em; /*default */
 }
