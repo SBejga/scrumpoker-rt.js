@@ -25,13 +25,15 @@ var userNames = (function () {
   };
 
   // serialize claimed names as an array
-  var get = function () {
-    var res = [];
-    for (user in names) {
-      res.push({name: user, score: "-2"});
+  var getAll = function () {
+    var nameArray = [];
+    for (var key in names) {
+      var val = names[key];
+      if (val) {
+        nameArray.push({name: key});
+      }
     }
-
-    return res;
+    return nameArray;
   };
 
   var free = function (name) {
@@ -43,53 +45,79 @@ var userNames = (function () {
   return {
     claim: claim,
     free: free,
-    get: get,
+    getAll: getAll,
     getGuestName: getGuestName
   };
 }());
 
 // export function for listening to the socket
 module.exports = function (socket) {
-  var name = userNames.getGuestName();
+  //scope of this function is a client connection!
+  var username;
 
-  // send the new user their name and a list of users
-  socket.emit('init', {
-    name: name,
-    users: []
+  socket.emit('ask:name');
+
+  //answer from clients
+  socket.on('answer:name', function(data) {
+    
+    if (data && data.username && data.username !== null) {
+      //client send a username
+      //check if claim
+      if (userNames.claim(data.username)) {
+        username = data.username;
+      } else {
+        //name not available
+        //give guest name
+        username = userNames.getGuestName();  
+      }
+      
+    } else {
+      //client has no username sent, give guest
+      username = userNames.getGuestName();
+    }
+
+    // send the new user their name and a list of users
+    socket.emit('init', {
+      name: username,
+      users: []
+    });
+
+    // notify other clients that a new user has joined
+    socket.broadcast.emit('user:join', {
+      name: username
+    });
   });
 
-  // notify other clients that a new user has joined
-  socket.broadcast.emit('user:join', {
-    name: name
+  //answer from server
+  socket.on('server', function() {
+    socket.emit('init', {users: userNames.getAll()})
   });
-
 
   // notify other clients score changed
   socket.on('score:change', function (data) {
       socket.broadcast.emit('score:change', data);
   });
 
-  // notify other clients score changed
-  socket.on('score:lock', function (data) {
+  // notify other clients for locks
+  socket.on('score:lock', function () {
     socket.broadcast.emit('score:lock');
-
-    setTimeout(function() {
-      socket.emit('score:unlock');
-      socket.broadcast.emit('score:unlock');
-    }, 5*1000);
+  });
+  socket.on('score:unlock', function () {
+    socket.emit('score:unlock');
+    socket.broadcast.emit('score:unlock');
   });
 
   // validate a user's name change, and broadcast it on success
   socket.on('change:name', function (data, fn) {
     if (userNames.claim(data.name)) {
-      var oldName = name;
+      var oldName = username;
       userNames.free(oldName);
 
-      name = data.name;
+      username = data.name;
       
       socket.broadcast.emit('change:name', {
         oldName: oldName,
-        newName: name
+        newName: username
       });
 
       fn(true);
@@ -98,11 +126,24 @@ module.exports = function (socket) {
     }
   });
 
+  //server will kick user
+  socket.on('kick:name', function (data) {
+    console.log("receive kick request of user: ", data);
+    
+    //free user
+    userNames.free(data.username);
+
+    socket.broadcast.emit('user:left', {
+      name: data.username
+    });
+    
+  });
+
   // clean up when a user leaves, and broadcast it to other users
   socket.on('disconnect', function () {
     socket.broadcast.emit('user:left', {
-      name: name
+      name: username
     });
-    userNames.free(name);
+    userNames.free(username);
   });
 };

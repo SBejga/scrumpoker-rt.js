@@ -7,6 +7,8 @@ function ServerCtrl($scope, socket) {
     $scope.state = "picking";
     $scope.sidebar = false; //show initial sidebar?
     $scope.scoreHistory = [];
+    $scope.users = [];
+    $scope.connection = false;
 
     //debug purpose, create large scoreHistory:
     //for (var x=0; x<12; x++) {
@@ -109,16 +111,25 @@ function ServerCtrl($scope, socket) {
         }
     }
 
+    //react on ask:name but not answer, raise server emit
+    socket.on('ask:name', function() {
+        console.log("received ask:name");
+        socket.emit('server');
+    });
+
     socket.on('init', function (data) {
+        console.log("init server with users: ", data);
         $scope.users = data.users;
     });
 
     socket.on('user:join', function (data) {
+        console.log("user join: ", data);
         $scope.users.push({name: data.name, score: data.score});
     });
 
     // add a message to the conversation when a user disconnects or leaves the room
     socket.on('user:left', function (data) {
+        console.log("user left: ", data);
         var i, user;
         for (i = 0; i < $scope.users.length; i++) {
             user = $scope.users[i];
@@ -126,6 +137,11 @@ function ServerCtrl($scope, socket) {
                 $scope.users.splice(i, 1);
                 break;
             }
+        }
+
+        //check if finished due leave, when > 1
+        if ($scope.users.length > 1) {
+            checkFinishRound();
         }
     });
 
@@ -142,9 +158,13 @@ function ServerCtrl($scope, socket) {
             }
         }
 
+        checkFinishRound();
+    });
+
+    var checkFinishRound = function() {
         if (checkComplete()) {
 
-            console.log('Round finished. Locking Clients for 5sec');
+            console.log('Round finished');
 
             $scope.state = "finished";
 
@@ -165,14 +185,18 @@ function ServerCtrl($scope, socket) {
             $scope.scoreHistory.unshift(scoreCopy);
 
             //lock clients
+            console.log('Locking Clients for 5sec');
             socket.emit('score:lock');
-        }
-    });
 
+            setTimeout(function() {
+                socket.emit('score:unlock');
+            }, 5*1000);
+        }
+    };
 
     socket.on('score:unlock', function () {
 
-        console.log('Reset last scores.');
+        console.log('Unlock. Reset last scores.');
 
         var i, user;
         for (i = 0; i < $scope.users.length; i++) {
@@ -187,9 +211,21 @@ function ServerCtrl($scope, socket) {
     socket.on('change:name', function (data) {
         changeName(data.oldName, data.newName);
     });
+
+    $scope.kickUser = function(name) {
+        socket.emit('kick:name', {username: name});
+    }
+
+    $scope.setLock = function(bool) {
+        if (bool) {
+            socket.emit('score:lock');
+        } else {
+            socket.emit('score:unlock');
+        }
+    };
 }
 
-function AppCtrl($scope, socket) {
+function AppCtrl($scope, socket, remember) {
 
     $scope.cardvalues = [
         0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 99
@@ -202,8 +238,16 @@ function AppCtrl($scope, socket) {
   // Socket listeners
   // ================
 
+  var joinWithName = function() {
+    var rememberedName = remember.getRememberName();
+    console.log('answer with username: ', rememberedName);
+    socket.emit('answer:name', {username: rememberedName})
+  };
+  socket.on('ask:name', joinWithName);
+
   socket.on('init', function (data) {
     $scope.name = data.name;
+    $scope.connection = true;
   });
 
     $scope.state = "unlock";
@@ -216,6 +260,23 @@ function AppCtrl($scope, socket) {
         $scope.state = "unlock";
         //reset selected card
         $scope.selectedCard = -1;
+    });
+
+    //react on user:left, check if it is me (kicked)
+    socket.on('user:left', function (data) {
+        var leftName = data.name;
+        if (leftName === $scope.name) {
+
+            console.log("you was kicked! Disconnect socket.");
+            $scope.disconnect();
+
+            var action = window.prompt("Du wurdest vom Scrumpoker Leiter gekicked. Evtl. hast du nicht reagiert? "+
+                                        "Antworte mit 'rejoin' (ohne '') um erneut beizutreten.")
+            if (action === "rejoin") {
+                $scope.connect();
+                joinWithName();
+            }                      
+        }
     });
 
   // Methods published to the scope
@@ -232,18 +293,29 @@ function AppCtrl($scope, socket) {
         });
     };
 
-  $scope.changeName = function () {
-    socket.emit('change:name', {
-      name: $scope.newName
-    }, function (result) {
-      if (!result) {
-        alert('There was an error changing your name');
-      } else {
+    $scope.changeName = function () {
+        socket.emit('change:name', {
+        name: $scope.newName
+        }, function (result) {
+        if (!result) {
+            alert('There was an error changing your name');
+        } else {
+            //remember this name
+            remember.setRememberName($scope.newName);
 
-        $scope.name = $scope.newName;
-        $scope.newName = '';
-      }
-    });
-  };
+            //set in scope
+            $scope.name = $scope.newName;
+            $scope.newName = '';
+        }
+        });
+    };
 
+    $scope.disconnect = function() {
+        $scope.connection = false;
+        socket.disconnect();
+    }
+
+    $scope.connect = function() {
+        location.reload();
+    }
 }
