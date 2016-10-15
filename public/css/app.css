@@ -54,6 +54,17 @@ table.score td {
     background-position: 30% 75%;
 } 
 
+/* class for cards when not allowed to play */
+.cardsLocked .card {
+    cursor: not-allowed;
+}
+.round-status {
+    color: green;
+}  
+.cardsLocked .round-status {
+    color: red;
+}  
+
 table.sidebar {
     width: 300px;
 }

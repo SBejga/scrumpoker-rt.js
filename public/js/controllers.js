@@ -260,14 +260,14 @@ function AppCtrl($scope, socket, remember) {
     $scope.connection = true;
   });
 
-    $scope.state = "unlock";
+    $scope.cardsLocked = false;
 
     socket.on('score:lock', function () {
-        $scope.state = "lock";
+        $scope.cardsLocked = true;
     });
 
     socket.on('score:unlock', function () {
-        $scope.state = "unlock";
+        $scope.cardsLocked = false;
         //reset selected card
         $scope.selectedCard = -1;
     });
@@ -293,6 +293,11 @@ function AppCtrl($scope, socket, remember) {
   // ==============================
 
     $scope.sendScore = function (score, $index) {
+
+        //return if locked
+        if ($scope.cardsLocked) {
+            return;
+        }
 
         $scope.selectedCard = $index;
 
