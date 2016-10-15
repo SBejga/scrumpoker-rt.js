@@ -122,6 +122,9 @@ function ServerCtrl($scope, socket) {
     socket.on('init', function (data) {
         console.log("init server with users: ", data);
         $scope.users = data.users;
+
+        //when reloaded, unlock clients if they are already connected
+        socket.emit('score:unlock');
     });
 
     socket.on('user:join', function (data) {
