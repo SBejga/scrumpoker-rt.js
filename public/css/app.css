@@ -57,11 +57,11 @@ table.score td {
 
 /* draw cards a little smaller than at server */
 .client .playingCards .card {
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 @media (min-width: 544px) {
     .client .playingCards .card {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
 }
 @media (min-width: 768px) {
