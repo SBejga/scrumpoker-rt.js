@@ -6,6 +6,12 @@ body.server {
 min-width: 160px;
 }
 
+.navbar-brand {
+    background: url(scrumpoker-rt-black.png) center / contain no-repeat;
+    background-position-x: left;
+    padding-left: 50px;
+}
+
 .wincard {
     font-size: 50px;
     margin-top: 80px;
@@ -74,6 +80,7 @@ table.sidebar {
 }
 
 .footernote {
+    font-size: 10px;
     color: darkgrey;
     position: fixed;
     bottom: 5px;
