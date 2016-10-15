@@ -119,7 +119,14 @@ table.score td {
 }
 
 .playingCards .card.back {
-    background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#82b1ff), color-stop(0.8, #2962ff), to(#030));
+    background-image: -webkit-gradient(radial, center center, 20, center center, 80, 
+        from(#82b1ff), color-stop(0.8, #2962ff), to(#030));
+
+    /* gray: */
+    /*
+    background-image: -webkit-gradient(radial, center center, 20, center center, 80, 
+        from(#afafaf), color-stop(0.6, #727272), to(#030));
+    */
 }
 
 .playingCards.faceImages .card.joker {
