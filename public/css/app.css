@@ -48,6 +48,12 @@ table.score td {
     background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#82b1ff), color-stop(0.8, #2962ff), to(#030));
 }
 
+.playingCards.faceImages .card.joker {
+    background-image: url(faces/cup.png);
+    background-size: 75%;
+    background-position: 30% 75%;
+} 
+
 table.sidebar {
     width: 300px;
 }

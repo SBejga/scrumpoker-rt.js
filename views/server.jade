@@ -22,11 +22,11 @@ block body
               | Auto Unlock Off
 
       h1 Scrum Poker RT
-      div(class="server playingCards")
+      div(class="server playingCards faceImages")
         div(class="wrapper")
           div(class="main")
             div(ng-show="state == 'finished'", class="active wincard")
-              div(class="card") {{winScore}}
+              div(class="card", ng-class="{'joker': winScore == 'Pause'}") {{winScore}}
           div(ng-show="sidebar == true", class="sidebarRight")
               table(class="sidebar")
                 tr(ng-repeat="scores in scoreHistory")
@@ -41,7 +41,7 @@ block body
             td(ng-repeat='user in users')
               div(ng-switch="state")
                 div(ng-switch-when='finished', class="active")
-                  div(class="card") {{user.score}}
+                  div(class="card", ng-class="{'joker': user.score == 'Pause'}") {{user.score}}
                 div(ng-switch-when='picking')
                   div(ng-switch="user.scored")
                     div(ng-switch-when="true", class="active")
