@@ -4,9 +4,9 @@ An realtime webapp to play scrum poker virtually.
 
 ## Screenshots
 
-![Screenshot Client View](/screenshots/screenshot-client.png?raw=true "Screenshot Client View")
-![Screenshot Server View Picking](/screenshots/screenshot-server-picking.png?raw=true "Screenshot Server View Picking")
-![Screenshot Server View Result](/screenshots/screenshot-server-result.png?raw=true "Screenshot Server View Result")
+![Screenshot Client View](/screenshots/screenshot_client.png?raw=true "Screenshot Client View")
+![Screenshot Server View Picking](/screenshots/screenshot_server-picking.png?raw=true "Screenshot Server View Picking")
+![Screenshot Server View Result](/screenshots/screenshot_server-result.png?raw=true "Screenshot Server View Result")
 
 ## Running it
 
