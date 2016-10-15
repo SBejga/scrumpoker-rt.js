@@ -15,9 +15,8 @@ block body
           span.round-status Gesperrt
         p(ng-hide="cardsLocked") Status: 
           span.round-status Bereit
-        table(class='playingCards faceImages')
-          tr
-            td(ng-repeat="cardval in cardvalues", ng-class="{'active': $index == selectedCard }", ng-click='sendScore(cardval, $index)')
+        div(class='playingCards faceImages')
+          div.cardBox(ng-repeat="cardval in cardvalues", ng-class="{'active': $index == selectedCard }", ng-click='sendScore(cardval, $index)')
               div(class="card hearts", ng-class="{'joker': cardval == 'Pause'}") {{cardval}}
 
       .clr
