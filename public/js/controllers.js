@@ -261,7 +261,24 @@ function AppCtrl($scope, socket, remember) {
   socket.on('init', function (data) {
     $scope.name = data.name;
     $scope.connection = true;
+
+    $scope.checkServer()
   });
+
+  $scope.serverConnected = false;
+
+  $scope.checkServer = function() {
+      socket.emit('ask:server');
+  }
+
+  socket.on('server:ok', function() {
+    $scope.serverConnected = true;
+  });
+
+  socket.on('server:lost', function() {
+    $scope.serverConnected = false;
+  });
+
 
     $scope.cardsLocked = false;
 

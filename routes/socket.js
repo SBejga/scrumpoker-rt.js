@@ -50,10 +50,13 @@ var userNames = (function () {
   };
 }());
 
+var serverConnected = false;
+
 // export function for listening to the socket
 module.exports = function (socket) {
   //scope of this function is a client connection!
   var username;
+  var isServer = false;
 
   socket.emit('ask:name');
 
@@ -91,6 +94,11 @@ module.exports = function (socket) {
   //answer from server
   socket.on('server', function() {
     socket.emit('init', {users: userNames.getAll()})
+    
+    //a server is connected
+    isServer = true;
+    serverConnected = true;
+    socket.broadcast.emit('server:ok');
   });
 
   // notify other clients score changed
@@ -140,11 +148,27 @@ module.exports = function (socket) {
     
   });
 
+  //clients can ask for server connection status
+  socket.on('ask:server', function() {
+    if (serverConnected) {
+      socket.emit('server:ok');
+    } else {
+      socket.emit('server:lost');
+    }
+  });
+
   // clean up when a user leaves, and broadcast it to other users
   socket.on('disconnect', function () {
-    socket.broadcast.emit('user:left', {
-      name: username
-    });
-    userNames.free(username);
+    //For server notify server lost
+    if (isServer) {
+      serverConnected = false;
+      socket.broadcast.emit('server:lost');
+    } else {
+      //For clients, fire user:left and free username
+      socket.broadcast.emit('user:left', {
+        name: username
+      });
+      userNames.free(username);
+    }
   });
 };

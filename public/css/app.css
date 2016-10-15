@@ -6,6 +6,13 @@ nav.navbar {
     background-color: #d3d3d3;
 }
 
+.server-status {
+    color: red;
+}
+.serverConnected .server-status {
+    color: green;
+}
+
 /* to align sm buttons in middle of navbar */
 .server .controlbuttons {
     line-height: 35px;

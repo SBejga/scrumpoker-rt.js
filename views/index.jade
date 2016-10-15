@@ -11,10 +11,20 @@ block body
           button.btn.btn-outline-danger.eqWidth(ng-click='disconnect()') Disconnect
     div.container-fluid
       div(ng-show="connection", ng-class="{'cardsLocked': cardsLocked}")
-        p(ng-show="cardsLocked") Status: 
-          span.round-status Gesperrt
-        p(ng-hide="cardsLocked") Status: 
-          span.round-status Bereit
+        p(ng-class="{'serverConnected': serverConnected}")
+          span(ng-show="serverConnected") Server: 
+            span.server-status ok 
+          span(ng-hide="serverConnected") Server: 
+            span.server-status Lost 
+          span
+            | (
+            a(ng-click="checkServer()") Check
+            | ) 
+          span(ng-show="cardsLocked") Status: 
+            span.round-status Gesperrt 
+          span(ng-hide="cardsLocked") Status: 
+            span.round-status Bereit 
+          
         div(class='playingCards faceImages', ng-class="{'selection': selectedCard >= 0}")
           div.cardBox(ng-repeat="cardval in cardvalues", ng-class="{'active': $index == selectedCard }", ng-click='sendScore(cardval, $index)')
               div(class="card", ng-class="{'joker': cardval == 'Pause'}") {{cardval}}
