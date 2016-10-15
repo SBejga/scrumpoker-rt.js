@@ -2,6 +2,10 @@ body {
     background: url(backgrounds/OCCN630_lighter2.jpg);
 }
 
+nav.navbar {
+    background-color: lightgray;
+}
+
 /* to align sm buttons in middle of navbar */
 .server .controlbuttons {
     line-height: 35px;
