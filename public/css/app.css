@@ -51,6 +51,10 @@ table.score td {
     border: 1px solid green;
 }
 
+.playingCards .cards {
+    color: #f00;
+}
+
 .server.playingCards td {
     text-align: center;
 }
@@ -81,7 +85,36 @@ table.score td {
     font-size: 1.2em; /*default */
 }
 
-.playingCards .active .card {
+/* class for cards when some card is selected (active) */
+.client .playingCards.selection .card {
+    background-color: #f2f2f2;
+    color: dimgray;
+}
+
+/* class for cards when not allowed to play */
+.client .cardsLocked .card,
+.client .cardsLocked .selection .card {
+    cursor: not-allowed;
+    background-color: #d3d3d3;
+    color: dimgray;
+}
+
+.client .playingCards .active .card {
+    /* move card up */
+    bottom: 1em;
+    /* Other Border Color */
+    border: 1px solid darkgreen;
+    background-color: white;
+    /* change icon */
+    /*
+    background-image: url(icons/1476579698_checklist.png);
+    background-size: 33%;
+    background-position: 50% 75%;
+    background-repeat: no-repeat;
+    */
+}
+.server .playingCards .active .card {
+    /* move card up */
     bottom: 1em;
 }
 
@@ -93,12 +126,9 @@ table.score td {
     background-image: url(faces/cup.png);
     background-size: 75%;
     background-position: 30% 75%;
+    background-repeat: no-repeat;
 } 
 
-/* class for cards when not allowed to play */
-.cardsLocked .card {
-    cursor: not-allowed;
-}
 .round-status {
     color: green;
 }  
