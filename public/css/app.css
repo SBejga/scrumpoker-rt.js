@@ -1,4 +1,6 @@
-/* app css stylesheet */
+body {
+    background: url(backgrounds/wooden_lighter.jpg);
+}
 
 .wincard {
     font-size: 50px;
