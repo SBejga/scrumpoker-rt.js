@@ -13,6 +13,18 @@ An realtime webapp to play scrum poker virtually.
 the app will be packaged as node-webkit apps and deployed to the release section of github.
 Currently it will be packaged for osx64 and win64. See [Releases](https://github.com/SBejga/scrumpoker-rt.js/releases).
 
+### package from source
+
+1. Zip the project folder (yes with node_modules, but delete 'build' and 'cache' before)
+1. Check if Zip Archive contains the files at root level (no subfolder with project files, at root level)
+1. rename *.zip to `package.nw`
+1. Download [Node-Webkit Executable](http://nwjs.io/)
+1. Extract Node-Webkit SDK (e.g. nwjs-v0.18.0-win-x64.zip) to a new folder (e.g. 'scrumpoker')
+1. Copy  `package.nw` to this new folder (scrumpoker)
+1. Just start nw.exe to test if it works.
+1. Finished. You can Zip and distribute this whole folder (scrumpoker, containing package.nw and nw.exe (and nw related files)) 
+
+
 ## Running it
 
 Install the dependencies with npm:

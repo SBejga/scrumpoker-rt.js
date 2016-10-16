@@ -5,8 +5,9 @@ var zip = require('gulp-zip');
 var release = require('gulp-github-release');
 var size = require('gulp-filesize');
 var merge = require('merge-stream');
+var rename = require('gulp-rename');
 
-var BUILD_PLATFORMS = ['osx64'];
+var BUILD_PLATFORMS = ['win64'];
 // var BUILD_PLATFORMS = ['osx64', 'win64'];
 
 var SRC_GLOB = [
@@ -23,7 +24,8 @@ var nw = new NwBuilder({
     files: SRC_GLOB,
     platforms: BUILD_PLATFORMS,
     version: 'latest',
-    buildDir: './build/nw/'
+    buildDir: './build/nw/',
+    zip: false
 });
 //Log stuff you want
 nw.on('log',  console.log);
@@ -47,7 +49,22 @@ gulp.task('nw', ['clean'], function(done) {
     });
 })
 
-gulp.task('release:zip', ["nw"], (done) => {
+//nw
+/**
+ * Rename scrumpoker.exe to nw.exe 
+ * on windows7, file crashed when not name nw.exe
+ */
+gulp.task('nw:rename:win', [], function() {
+    return gulp.src("./build/nw/**/scrumpoker.exe")
+        .pipe(rename(function (path) {
+            path.basename = "nw";
+            return path;
+        }))
+        .pipe(del(['./build/nw/**/scrumpoker.exe']))
+        .pipe(gulp.dest("./build/nw/"));
+})
+
+gulp.task('release:zip', ["nw:rename:win"], (done) => {
     var tasks = BUILD_PLATFORMS.map(function(element){
         return gulp.src('./build/nw/scrumpoker/'+element+'/**')
             .pipe(zip( element+'.zip'))
