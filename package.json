@@ -37,8 +37,10 @@
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-filelog": "^0.4.1",
     "gulp-github-release": "^1.2.0",
     "gulp-zip": "^3.2.0",
+    "merge-stream": "^1.0.0",
     "nw-builder": "^3.1.2"
   }
 }
