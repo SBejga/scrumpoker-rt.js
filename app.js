@@ -8,7 +8,13 @@ var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
 
 // Configuration
-var authConfig = require('./basicauth.json');
+var jsonfile = require('jsonfile');
+//surround to catch file not found error...
+try {
+  var authConfig = jsonfile.readFileSync('./basicauth.json', {throws: false})
+} catch(e) {
+  authConfig = null;
+}
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -18,7 +24,7 @@ app.configure(function(){
   });
 
   //Basic Auth
-  if (authConfig.enabled) {
+  if (authConfig && authConfig.enabled) {
     app.use(express.basicAuth(function(user, pass) {
       return pass === authConfig.credentials[user];
     }));
