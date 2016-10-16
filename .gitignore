@@ -3,3 +3,6 @@
 /.DS_Store
 scrumpoker.log
 public/bower_components
+build/
+cache/
+githubtoken.json
