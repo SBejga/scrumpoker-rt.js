@@ -8,8 +8,7 @@ var merge = require('merge-stream');
 var rename = require('gulp-rename');
 var vinylPaths = require('vinyl-paths');
 
-var BUILD_PLATFORMS = ['win64'];
-// var BUILD_PLATFORMS = ['osx64', 'win64'];
+var BUILD_PLATFORMS = ['osx64', 'win64'];
 
 var SRC_GLOB = [
     '**/*', 
@@ -91,7 +90,7 @@ gulp.task('release', ['release:zip'], function() {
             repo: 'scrumpoker-rt.js',            // if missing, it will be extracted from manifest (the repository.url field)
             //   tag: 'v1.0.0',                      // if missing, the version will be extracted from manifest and prepended by a 'v'
             //   name: 'publish-release v1.0.0',     // if missing, it will be the same as the tag
-            draft: true,                       // if missing it's false
+            draft: false,                       // if missing it's false
             prerelease: true,                  // if missing it's false
             manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
         }));

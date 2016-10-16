@@ -13,6 +13,20 @@ An realtime webapp to play scrum poker virtually.
 the app will be packaged as node-webkit apps and deployed to the release section of github.
 Currently it will be packaged for osx64 and win64. See [Releases](https://github.com/SBejga/scrumpoker-rt.js/releases).
 
+### Run Package
+
+#### Windows
+
+- Download win64.zip
+- Extract
+- run nw.exe 
+
+#### Mac
+
+- Download osx64
+- Extract
+- Open scumpoker.app
+
 ### package from source
 
 1. Zip the project folder (yes with node_modules, but delete 'build' and 'cache' before)
