@@ -1,1 +1,73 @@
-<!DOCTYPE html><html><head><meta charset="utf8"><base href="/"><title>Scrumpoker RT</title><link rel="stylesheet" href="/css/app.css"><link rel="stylesheet" href="/css/cards.css"></head><body><h1>ScrumpokerRT.js</h1><h3>Packaged Version</h3><p>Node.js Application started in the background at port 3000.</p><p>Open your browser at URL:&nbsp;<a href="http://localhost:3000/server/">http://localhost:3000/server/</a><span> (or just click link to open in this window)</span></p><p>Important: Open server window first, than open client url!</p><p>Your clients just use:&nbsp;<b>http://localhost:3000/</b></p><p>But you have to tell them your IP. For example:&nbsp;<b>http://192.168.1.100:3000/</b></p><p>Have fun with ScrumpokerRT.js</p></body></html>
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf8">
+	<base href="/">
+	<title>Scrumpoker RT</title>
+    <script>
+        var port = process.env.PORT || 8000;
+        document.write('<link rel="stylesheet" href="http://localhost:'+port+'/bower_components/bootstrap/dist/css/bootstrap.css">');
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>Scrumpoker RT</h1>
+        <h5>Packaged Version</h5>
+
+        <script>
+        var os = require('os');
+        document.write('<p>started scrumpoker at port <b>'+ port +'</b>.');
+        document.write(' You are running on <b>' + os.platform() + '</b>');
+        document.write('</p>');
+
+        var openServerView = function() {
+            nw.Window.open('http://localhost:' + port + '/server/', 
+                {
+                    width: 1024,
+                    height: 800
+                }, 
+                function(new_win) {
+                }
+            );
+        }
+        </script>
+        
+        <button class="btn btn-primary" onclick="openServerView()">Open Scrumpoker Server View</button><br/>
+        <br/>
+
+        <h3>Network Interfaces</h3>
+
+        <script>
+            var networkInterfaces = os.networkInterfaces();
+            var firstNetworkInterface = Object.keys(networkInterfaces)[0];
+            document.write('<p> First Network Interface: <br/>');
+            document.write("<b>"+firstNetworkInterface+"</b><br/>");
+            document.write(JSON.stringify(networkInterfaces[firstNetworkInterface]));
+            document.write('</p>');
+
+            document.write('<p> <b>Possible Application URLs:</b> <br/>');
+            for (var key in networkInterfaces) {
+                var networkAdresses = networkInterfaces[key];
+                for (var i in networkAdresses) {
+                    var networkAddress = networkAdresses[i];
+                    if (networkAddress.family === "IPv4") {
+                        document.write(key + ": ");
+                        var url = 'http://' + networkAddress.address + ":" + port + '/';
+                        document.write('<a href="'+url+'" target="_blank">'+url+'</a><br/>');
+                    }
+                }
+            }
+            document.write('</p>');
+
+            document.write('<p> Choose the IP Address your clients should be able to open from their network.');
+            document.write('Let them open the URL and they should appear in your server view.</p>');
+
+            document.write('<p> Have fun with <a href="https://github.com/SBejga/scrumpoker-rt.js">Scrumpoker RT</a></p>');
+
+            document.write('<p>&copy; 2016 Sebastian Bejga</p>');
+        </script>
+    </div>
+</body>
+
+</html>

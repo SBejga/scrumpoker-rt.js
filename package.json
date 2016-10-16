@@ -1,49 +1,44 @@
 {
-    "js-flags": "", 
-    "name": "ScrumpokerRTjs", 
-    "single-instance": true, 
-    "nodejs": true, 
-    "description": "", 
-    "additional_trust_anchors": "", 
-    "user-agent": "", 
-    "inject-js-end": "", 
-    "keywords": [], 
-    "window": {
-        "transparent": false, 
-        "fullscreen": false, 
-        "resizable": true, 
-        "title": "Scrumpoker RT", 
-        "always-on-top": false, 
-        "frame": true, 
-        "height": 600, 
-        "exe_icon": "", 
-        "visible": true, 
-        "as_desktop": false, 
-        "position": "", 
-        "show_in_taskbar": true, 
-        "mac_icon": "", 
-        "width": 800, 
-        "toolbar": false, 
-        "icon": ""
-    }, 
-    "version": "0.1.0", 
-    "snapshot": "", 
-    "node-main": "app.js", 
-    "webkit": {
-        "page-cache": false, 
-        "java": false, 
-        "plugin": false
-    }, 
-    "inject-js-start": "", 
-    "node-remote": "", 
-    "main": "nw.html", 
-    "chromium-args": "",
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-      "express": "2.5.10",
-      "jade": ">= 0.26.1",
-      "socket.io": ">= 0.9.6"
-    }
+  "name": "scrumpoker",
+  "description": "Play scrumpoker in your browser in realtime. Include client and server view.",
+  "single-instance": true,
+  "nodejs": true,
+  "node-main": "app.js",
+  "node-remote": "http://<local>:8000",
+  "main": "nw.html",
+  "keywords": [],
+  "window": {
+    "transparent": false,
+    "fullscreen": false,
+    "resizable": true,
+    "title": "Scrumpoker RT",
+    "always-on-top": false,
+    "frame": true,
+    "height": 700,
+    "exe_icon": "",
+    "visible": true,
+    "as_desktop": false,
+    "position": "",
+    "show_in_taskbar": true,
+    "mac_icon": "",
+    "width": 800,
+    "toolbar": false,
+    "icon": ""
+  },
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "2.5.10",
+    "jade": ">= 0.26.1",
+    "socket.io": ">= 0.9.6"
+  },
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-github-release": "^1.2.0",
+    "gulp-zip": "^3.2.0",
+    "nw-builder": "^3.1.2"
+  }
 }
