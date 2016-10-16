@@ -8,6 +8,11 @@ An realtime webapp to play scrum poker virtually.
 ![Screenshot Server View Picking](/screenshots/screenshot_server-picking.png?raw=true "Screenshot Server View Picking")
 ![Screenshot Server View Result](/screenshots/screenshot_server-result.png?raw=true "Screenshot Server View Result")
 
+## Packaged app
+
+the app will be packaged as node-webkit apps and deployed to the release section of github.
+Currently it will be packaged for osx64 and win64. See [Releases](https://github.com/SBejga/scrumpoker-rt.js/releases).
+
 ## Running it
 
 Install the dependencies with npm:
@@ -19,7 +24,7 @@ Run the app:
 
     node app.js
 
-Open Server View at http://localhost:8000/server/ and Clients at local http://localhost:8000/
+Open Server View at [http://localhost:8000/server/](http://localhost:8000/server/) and Clients at local [http://localhost:8000/](http://localhost:8000/)
 
 ## Improvements / Todos
 
