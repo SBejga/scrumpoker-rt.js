@@ -6,8 +6,8 @@ var release = require('gulp-github-release');
 var size = require('gulp-filesize');
 var merge = require('merge-stream');
 
-//var BUILD_PLATFORMS = ['osx64'];
-var BUILD_PLATFORMS = ['osx64', 'win64'];
+var BUILD_PLATFORMS = ['osx64'];
+// var BUILD_PLATFORMS = ['osx64', 'win64'];
 
 var SRC_GLOB = [
     '**/*', 
