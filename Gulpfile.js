@@ -3,7 +3,7 @@ var NwBuilder = require('nw-builder');
 var del = require('del');
 var zip = require('gulp-zip');
 var release = require('gulp-github-release');
-var filelog = require('gulp-filelog');
+var size = require('gulp-filesize');
 var merge = require('merge-stream');
 
 //var BUILD_PLATFORMS = ['osx64'];
@@ -56,19 +56,23 @@ gulp.task('release:zip', ["nw"], (done) => {
 
     return merge(tasks);
 });
+gulp.task('release:size', ['release:zip'], function() {
+    return gulp.src('./build/zip/*')
+        .pipe(size())
+});
 
 gulp.task('release', ['release:zip'], function() {
-    gulp.src('./build/zip/*')
-    .pipe(filelog())
-    .pipe(release({
-        // or you can set an env var called GITHUB_TOKEN instead
-        token: require('./githubtoken.json').githubtoken, 
-        owner: 'SBejga',                    // if missing, it will be extracted from manifest (the repository.url field)
-        repo: 'scrumpoker-rt.js',            // if missing, it will be extracted from manifest (the repository.url field)
-        //   tag: 'v1.0.0',                      // if missing, the version will be extracted from manifest and prepended by a 'v'
-        //   name: 'publish-release v1.0.0',     // if missing, it will be the same as the tag
-        draft: true,                       // if missing it's false
-        prerelease: true,                  // if missing it's false
-        manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
-    }));
+    return gulp.src('./build/zip/*')
+        .pipe(size())
+        .pipe(release({
+            // or you can set an env var called GITHUB_TOKEN instead
+            token: require('./githubtoken.json').githubtoken, 
+            owner: 'SBejga',                    // if missing, it will be extracted from manifest (the repository.url field)
+            repo: 'scrumpoker-rt.js',            // if missing, it will be extracted from manifest (the repository.url field)
+            //   tag: 'v1.0.0',                      // if missing, the version will be extracted from manifest and prepended by a 'v'
+            //   name: 'publish-release v1.0.0',     // if missing, it will be the same as the tag
+            draft: true,                       // if missing it's false
+            prerelease: true,                  // if missing it's false
+            manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
+        }));
 });

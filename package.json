@@ -38,6 +38,7 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-filelog": "^0.4.1",
+    "gulp-filesize": "0.0.6",
     "gulp-github-release": "^1.2.0",
     "gulp-zip": "^3.2.0",
     "merge-stream": "^1.0.0",
