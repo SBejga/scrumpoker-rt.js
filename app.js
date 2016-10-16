@@ -9,8 +9,7 @@ var io = require('socket.io').listen(app);
 
 // Configuration
 var jsonfile = require('jsonfile');
-//surround to catch file not found error...
-try {
+try { //surround to catch file not found error...
   var authConfig = jsonfile.readFileSync('./basicauth.json', {throws: false})
 } catch(e) {
   authConfig = null;
