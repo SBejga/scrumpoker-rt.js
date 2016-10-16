@@ -6,6 +6,7 @@ var release = require('gulp-github-release');
 var size = require('gulp-filesize');
 var merge = require('merge-stream');
 var rename = require('gulp-rename');
+var vinylPaths = require('vinyl-paths');
 
 var BUILD_PLATFORMS = ['win64'];
 // var BUILD_PLATFORMS = ['osx64', 'win64'];
@@ -49,18 +50,20 @@ gulp.task('nw', ['clean'], function(done) {
     });
 })
 
-//nw
 /**
  * Rename scrumpoker.exe to nw.exe 
  * on windows7, file crashed when not name nw.exe
  */
-gulp.task('nw:rename:win', [], function() {
+gulp.task('nw:rename:win', ['nw'], function() {
     return gulp.src("./build/nw/**/scrumpoker.exe")
+        //we use vinylPaths to get the paths for our files
+        // and handover to del to delete them
+        .pipe(vinylPaths(del))
+        //after delete pipeline we create the rename pipe
         .pipe(rename(function (path) {
             path.basename = "nw";
             return path;
         }))
-        .pipe(del(['./build/nw/**/scrumpoker.exe']))
         .pipe(gulp.dest("./build/nw/"));
 })
 
