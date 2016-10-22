@@ -29,7 +29,10 @@ myApp.controller('ServerCtrl', ['$scope', 'socket', function($scope, socket) {
         var i;
         for (i = 0; i < $scope.users.length; i++) {
             var usr = $scope.users[i];
-            if (typeof(usr)==="object" && usr.scored !== true) {
+
+            if (usr && usr.scored && usr.scored === true) {
+                //
+            } else {
                 return false;
             }
         }
@@ -156,9 +159,14 @@ myApp.controller('ServerCtrl', ['$scope', 'socket', function($scope, socket) {
         for (i = 0; i < $scope.users.length; i++) {
             user = $scope.users[i];
             if (user.name === data.name) {
-                user.score = data.score
-                user.scored = true;
-                break;
+                if (data.score === -1) {
+                    user.score = -1
+                    user.scored = false;
+                } else {
+                    user.score = data.score
+                    user.scored = true;
+                    break;
+                }
             }
         }
 
@@ -315,6 +323,19 @@ myApp.controller('AppCtrl', ['$scope', 'socket', 'remember', function($scope, so
 
         //return if locked
         if ($scope.cardsLocked) {
+            return;
+        }
+
+        //unselect card
+        if ($index == $scope.selectedCard) {
+            $scope.selectedCard = -1;
+
+            //send invalid score
+            socket.emit('score:change', {
+                name: $scope.name,
+                score: -1
+            });
+
             return;
         }
 
