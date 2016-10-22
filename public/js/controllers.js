@@ -1,7 +1,7 @@
 'use strict';
 var myApp = angular.module('myApp.controllers',[]);
 
-myApp.controller('ServerCtrl', ['$scope', 'socket', function($scope, socket) {
+myApp.controller('ServerCtrl', ['$scope', 'socket', '$location', function($scope, socket, $location) {
 
     $scope.state = "picking";
     $scope.locked = false;
@@ -10,6 +10,22 @@ myApp.controller('ServerCtrl', ['$scope', 'socket', function($scope, socket) {
     $scope.users = [];
     $scope.connection = false;
     $scope.autoUnlock = false;
+
+    var qrcodeGenerated = false;
+    $scope.generateQR = function() {
+        if (qrcodeGenerated == false) {
+            var uri = $location.protocol() + '://'+ $location.host() +':'+  $location.port()  +'/';
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: uri,
+                width: 512,
+                height: 512,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            qrcodeGenerated = true;
+        }
+    }
 
     //debug purpose, create large scoreHistory:
     //for (var x=0; x<12; x++) {

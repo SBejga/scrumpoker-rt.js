@@ -20,7 +20,10 @@ block body
           span(ng-hide="autoUnlock")
             button.btn.btn-sm.btn-outline-danger(ng-click='autoUnlock = true', data-toggle="tooltip", data-placement="bottom", title="Click to enable Auto Unlock")
               | Auto Unlock
-
+          span &nbsp;
+          span
+            button.btn.btn-sm.btn-outline-primary(data-toggle="modal", data-target="#qrcodeModal", ng-click="generateQR()")
+              | QR Code
       h1 Scrum Poker RT
       div(class="server playingCards faceImages")
         div(class="wrapper")
@@ -52,6 +55,15 @@ block body
             td(ng-repeat='user in users') 
               |{{user.name}} <br />
               a(ng-click="kickUser(user.name)") (kick)
+    div.modal.fade#qrcodeModal(role="dialog")
+      div.modal-dialog(role="document")
+        div.modal-content
+          div.modal-header
+            h4.modal-title Client QR Code
+          div.modal-body
+            div#qrcode
+          div.modal-footer
+            button.btn.btn-secondary.pull-xs-left(data-dismiss="modal") Close
 
     include footer.jade
     include scripts.jade
