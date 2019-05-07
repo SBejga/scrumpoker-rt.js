@@ -1,11 +1,14 @@
 var express = require('express'),
   routes = require('./routes'),
-  socket = require('./routes/socket.js');
+  socket = require('./routes/socket.js'),
+  bodyParser = require('body-parser'),
+  methodOverride = require('method-override'),
+  errorHandler = require('errorhandler'),
+  http = require('http');
 
-var app = module.exports = express.createServer();
-
-// Hook Socket.io into Express
-var io = require('socket.io').listen(app);
+var app = module.exports = express();
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
 // Configuration
 var jsonfile = require('jsonfile');
@@ -15,33 +18,29 @@ try { //surround to catch file not found error...
   authConfig = null;
 }
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.set('view options', {
-    layout: false
-  });
-
-  //Basic Auth
-  if (authConfig && authConfig.enabled) {
-    app.use(express.basicAuth(function(user, pass) {
-      return pass === authConfig.credentials[user];
-    }));
-  }
-
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.static(__dirname + '/public'));
-  app.use(app.router);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.set('view options', {
+  layout: false
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+//Basic Auth
+if (authConfig && authConfig.enabled) {
+  app.use(express.basicAuth(function(user, pass) {
+    return pass === authConfig.credentials[user];
+  }));
+}
 
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(express.static(__dirname + '/public'));
+
+var env = process.env.NODE_ENV || 'development';
+if ('development' == env) {
+  app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+} else {
+  app.use(errorHandler());
+}
 
 // Routes
 app.get('/', routes.index);
@@ -52,13 +51,10 @@ app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 
 // Socket.io Communication
-
 io.sockets.on('connection', socket);
 
 // Start server
-
-//TODO: in production: NODE_ENV=production
-
-app.listen(8000, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+var port = process.env.PORT || '8000';
+server.listen(port, function(){
+  console.log("server listening on port " + port);
 });
